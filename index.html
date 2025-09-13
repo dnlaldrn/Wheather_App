@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body>
+<div >
+  <label>Enter a City
+    <input class="border-2 border-white-200 px-4 py-3 rounded-2xl" type="text" placeholder="e.g Manila" id="cityInput">
+<button onclick="getWheather()">Search</button>
+<div id="display"></div>
+  </label>
+</div>
+    <script type="module" src="/src/main.js"></script>
+    <script>
+      const apiKey = "bcddfc07cd0225204e0ce47378d4ce81";
+
+      let displayResult = document.getElementById('display')
+      async function getWheather(){
+        let city = document.getElementById('cityInput').value.trim();
+        try{
+          const response = await fetch (`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+          if(!response.ok){
+           throw new Error ("city not found")
+          }
+          const data = await response.json();
+          displayResult.innerHTML = `
+          <h2 class="text-xl font-semibold">${data.name}, ${data.sys.country}</h2>
+          <p class="text-lg">🌡 ${data.main.temp}°C</p>
+          <p>${data.weather[0].description}</p>
+          <p>💨 Wind: ${data.wind.speed} m/s</p>`
+
+        }catch(error){
+          displayResult.innerHTML = "Error"
+        }
+        
+      }
+    </script>
+  </body>
+</html>
