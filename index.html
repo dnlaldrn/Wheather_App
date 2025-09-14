@@ -7,25 +7,28 @@
     <title>Vite App</title>
   </head>
   <body>
-<div >
-  <label>Enter a City
-    <input class="border-2 border-white-200 px-4 py-3 rounded-2xl" type="text" placeholder="e.g Manila" id="cityInput">
-<button onclick="getWheather()">Search</button>
-<div id="display"></div>
-  </label>
-</div>
+    <div id = "background" class="h-screen w-screen flex justify-center items-center">
+        <div >
+          <label>Enter a City
+            <input class="border-2 border-white-200 px-4 py-3 rounded-2xl" type="text" placeholder="e.g Manila" id="cityInput">
+        <button onclick="getWheather()">Search</button>
+        <div id="display" class="z-10"></div>
+          </label>
+        </div>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
     <script>
       const apiKey = "bcddfc07cd0225204e0ce47378d4ce81";
-
+       let background = document.getElementById('background');
       let displayResult = document.getElementById('display')
       async function getWheather(){
         let city = document.getElementById('cityInput').value.trim();
         try{
           const response = await fetch (`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
           if(!response.ok){
-           throw new Error ("city not found")
-          }
+           throw new Error ("city not found");
+          } 
           const data = await response.json();
           displayResult.innerHTML = `
           <h2 class="text-xl font-semibold">${data.name}, ${data.sys.country}</h2>
@@ -33,9 +36,16 @@
           <p>${data.weather[0].description}</p>
           <p>💨 Wind: ${data.wind.speed} m/s</p>`
 
+          background.style.backgroundImage = `url('/images/${data.weather[0].main}.jpg')`;
+          background.style.backgroundSize = "cover";
+          background.style.backgroundPosition = "center";
+
         }catch(error){
           displayResult.innerHTML = "Error"
         }
+        
+
+        
         
       }
     </script>
