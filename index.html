@@ -2,13 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Wheater App</title>
   </head>
   <body>
     <div id = "background" class="h-screen w-screen flex justify-center items-center">
-        <div >
+        <div class="bg-white/50 backdrop-blur-[16px] border border-white/25 h-[300px] w-xl flex justify-center items-center rounded-2xl">
           <label>Enter a City
             <input class="border-2 border-white-200 px-4 py-3 rounded-2xl" type="text" placeholder="e.g Manila" id="cityInput">
         <button onclick="getWheather()">Search</button>
@@ -17,8 +16,17 @@
         </div>
     </div>
 
+
+
     <script type="module" src="/src/main.js"></script>
     <script>
+      document.addEventListener("keydown", (event)=> {
+        if(event.key === "Enter"){
+          getWheather();
+        }
+
+      })
+
       const apiKey = "bcddfc07cd0225204e0ce47378d4ce81";
        let background = document.getElementById('background');
       let displayResult = document.getElementById('display')
@@ -41,13 +49,14 @@
           background.style.backgroundPosition = "center";
 
         }catch(error){
-          displayResult.innerHTML = "Error"
+          displayResult.innerHTML = `<p class="text-red-700 mt-4">Please enter a valid input</p>`
         }
         
 
         
         
       }
+      
     </script>
   </body>
 </html>
